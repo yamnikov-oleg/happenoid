@@ -1,0 +1,8 @@
+<%= form_tag stories_path do %>
+	<%= hidden_field_tag :mode, "external" %>
+
+	<%= label_tag 'Номера' %><br>
+	<%= text_area_tag :numbers %><br>
+
+	<%= submit_tag 'Отправить' %>
+<% end %>

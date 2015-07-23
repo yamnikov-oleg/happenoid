@@ -1,3 +1,5 @@
+require 'open-uri'
+
 module StoriesHelper
 
 	def parse_month month_string
@@ -40,7 +42,7 @@ module StoriesHelper
 		tags_array.each do |tag|
 			short = tag["url"]
 			if short.nil?
-				continue
+				next
 			end
 			short = short.split("/").last
 
@@ -125,6 +127,65 @@ module StoriesHelper
 
   	return story
 
+  end
+
+  def build_number_collection numbers
+  	collection = []
+  	numbers = numbers.split ','
+  	numbers.each do |number|
+  		if number.include? '-'
+  			range = number.split '-'
+  			first = range[0].to_i
+  			last = range[1].to_i
+
+  			first.upto last do |x|
+  				if x > 0 and !(collection.include? x)
+  					collection << x
+  				end
+  			end
+  		else
+  			x = number.to_i
+  			if x > 0 and !(collection.include? x)
+  				collection << x
+  			end
+  		end
+  	end
+
+  	return collection
+  end
+
+  def parse_external_story id
+  	page_url = "http://ithappens.me/story/#{id}"
+    document = Nokogiri::HTML(open(page_url))
+    element = document.css('.story')
+
+    story = Story.new
+
+    story.title = element.css('h1').text.strip
+    story.created_at = parse_time element.css('.date-time').text.strip
+    story.rating = element.css('.rating').text.to_i
+
+    tags = element.css('.tags a')
+    tags_hash = []
+    tags.each do |tag|
+        tags_hash.push({name: tag.text.strip, url: tag[:href].split("/").last })
+    end
+    story.tags = parse_json_tags tags_hash
+
+    story.text = element.css('.text').text.strip
+    story.save
+
+    return story
+end
+
+  def parse_external numbers
+  	numbers = build_number_collection numbers
+
+  	numbers.each do |num|
+  		parse_external_story num
+  	end
+
+  	return numbers
   end
 
 end

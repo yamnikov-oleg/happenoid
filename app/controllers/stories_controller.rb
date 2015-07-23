@@ -40,7 +40,10 @@ class StoriesController < ApplicationController
       json = params[:json]
       @story = parse_from_json JSON.load json
     when :external
-      
+      numbers = params[:numbers]
+      numbers = parse_external numbers
+      redirect_to stories_url
+      return
     end
 
     respond_to do |format|
