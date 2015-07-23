@@ -168,7 +168,7 @@ module StoriesHelper
     tags = element.css('.tags a')
     tags_hash = []
     tags.each do |tag|
-        tags_hash.push({name: tag.text.strip, url: tag[:href].split("/").last })
+        tags_hash.push({"name" => tag.text.strip, "url" => tag[:href].split("/").last })
     end
     story.tags = parse_json_tags tags_hash
 
