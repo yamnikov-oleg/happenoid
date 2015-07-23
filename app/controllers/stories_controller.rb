@@ -1,5 +1,5 @@
 class StoriesController < ApplicationController
-  include ApplicationHelper
+  include StoriesHelper
 
   before_action :set_story, only: [:show, :edit, :update, :destroy]
 
@@ -38,9 +38,9 @@ class StoriesController < ApplicationController
       @story = Story.new(story_params)
     when :json
       json = params[:json]
-      parse_from_json JSON.load json
+      @story = parse_from_json JSON.load json
     when :external
-
+      
     end
 
     respond_to do |format|
@@ -87,88 +87,6 @@ class StoriesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def story_params
       params.require(:story).permit(:title, :rating, :text)
-    end
-
-    def parse_from_json object
-      @story = Story.new
-
-      if object.nil? 
-        return
-      end
-
-      @story.title = object["title"]
-      @story.rating = object["rating"]
-      @story.text = object["text"]
-
-      tags = object["tags"]
-
-      tags.each do |tag|
-        short = tag["url"]
-        if short.nil?
-          continue
-        end
-        short = short.split("/").last
-
-        tag_model = Tag.find_by(short: short)
-
-        if tag_model.nil? 
-          tag_model = Tag.new(short: short, full: tag["name"])
-          tag_model.save
-        end
-
-        @story.tags << tag_model
-      end
-
-      now = Time.new
-      time = object["date"]
-
-      if time
-
-        time = time.split ", "
-        time[0] = Unicode::downcase(time[0])
-
-        # working with date part
-        if time[0] == "сегодня"
-          day = now.day
-          month = now.month
-          year = now.year
-        elsif time[0] == "вчера"
-          now -= 1.day
-
-          day = now.day
-          month = now.month
-          year = now.year
-        else
-          date = time[0].split
-
-          day = date[0].to_i
-          month = parse_month date[1]
-
-          if date.size > 2
-            year = date[2].to_i
-          else
-            year = now.year
-          end
-
-        end
-
-        # working with time part
-        time = time[1].split ':'
-        hour = time[0].to_i
-        minute = time[1].to_i
-
-      else # if time
-        day = now.day
-        month = now.month
-        year = now.year
-
-        hour = now.hour
-        minute = now.min
-      end
-
-      created_at = Time.utc(year, month, day, hour, minute);
-      @story.created_at = created_at
-
     end
 
 end
