@@ -18,12 +18,15 @@ class StoriesController < ApplicationController
   def verify
     @story.verified = true
     @story.save
-    redirect_to @story
+    redirect_back_or_to @story
   end
 
   # GET /stories/1
   # GET /stories/1.json
   def show
+    unless @story.verified or admin?
+      restricted_redirect
+    end
   end
 
   # GET /stories/new
@@ -70,7 +73,7 @@ class StoriesController < ApplicationController
     end
 
     if @story.save
-      redirect_to @story, notice: 'Story was successfully created.'
+      redirect_to stories_path, notice: 'Story was successfully created.'
     else
       render :new
     end

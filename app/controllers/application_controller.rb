@@ -5,15 +5,29 @@ class ApplicationController < ActionController::Base
 
   protected
 
+  def redirect_back_or_to url
+    if request.referrer and request.referrer != request.original_url
+      back = request.referrer
+    else
+      back = url
+    end
+
+    redirect_to back
+  end
+
+  def restricted_redirect
+    if request.referrer and request.referrer != request.original_url
+      back = request.referrer
+    else
+      back = stories_path
+    end
+
+    redirect_to back, restricted: true
+  end
+
   def admin_only!
   	unless admin?
-  		if request.referrer and request.referrer != request.original_url
-  			back = request.referrer
-  		else
-  			back = stories_path
-  		end
-
-  		redirect_to back, restricted: true
+  		restricted_redirect
   		return false
   	else
   		return true

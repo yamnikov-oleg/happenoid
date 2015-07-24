@@ -1,8 +1,3 @@
 <p id="notice"><%= notice %></p>
 
 <%= render 'story', story: @story %>
-
-<% if admin? %>
-	<%= link_to 'Редактировать', edit_story_path(@story) %><br>
-	<%= link_to 'Удалить', @story, method: :delete, data: { confirm: 'Вы уверены?' }  %>
-<% end %>
