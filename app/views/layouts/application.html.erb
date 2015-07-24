@@ -12,6 +12,7 @@
 	<%= link_to 'Добавить', new_story_path %>
 	<%= link_to 'Все теги', tags_path %>
 	<% if admin? %>
+		<%= link_to 'Модерация', unverified_stories_path %>
 		<%= link_to 'Изм. пароль', admin_password_path %>
 		<%= link_to 'Выйти', admin_path, method: :delete %>
 	<% else %>

@@ -182,6 +182,8 @@ module StoriesHelper
     story.text.gsub! /\n+/, "</p><p>"
     story.text = "<p>#{story.text}</p>"
 
+    story.verified = true
+
     story.save
 
     return story

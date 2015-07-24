@@ -1,13 +1,24 @@
 class StoriesController < ApplicationController
   include StoriesHelper
 
-  before_action :set_story, only: [:show, :edit, :update, :destroy]
-  before_filter :admin_only!, only: [:edit, :update, :destroy]
+  before_action :set_story, only: [:show, :edit, :update, :destroy, :verify]
+  before_filter :admin_only!, only: [:edit, :update, :destroy, :unverified, :verify]
 
   # GET /stories
   # GET /stories.json
   def index
-    @stories = Story.all
+    @stories = Story.where verified: true
+  end
+
+  def unverified
+    @stories = Story.where verified: false
+    render 'index'
+  end
+
+  def verify
+    @story.verified = true
+    @story.save
+    redirect_to @story
   end
 
   # GET /stories/1
@@ -46,9 +57,11 @@ class StoriesController < ApplicationController
       end
       @story.text.gsub! /\n+/, "</p><p>"
       @story.text = "<p>#{@story.text}</p>"
+      @story.verified = admin?
     when :json
       json = params[:json]
       @story = parse_from_json JSON.load json
+      @story.verified = true
     when :external
       numbers = params[:numbers]
       numbers = parse_external numbers

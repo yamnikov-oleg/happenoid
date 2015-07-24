@@ -2,6 +2,13 @@
 	<div class="meta">
 		<%= link_to story.created_at, story, class: "id" %>
 		<%= story.rating %>
+		<% if admin? %>
+			<% unless story.verified %>
+				<%= link_to 'Опубликовать', verify_story_path(story), method: :post %>
+			<% end %>
+			<%= link_to 'Редактировать', edit_story_path(story) %>
+			<%= link_to 'Удалить', story, method: :delete, data: { confirm: 'Вы уверены?' }  %>
+		<% end %>
 	</div>
 	<div class="title">
 		<%= story.title %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150724132013) do
+ActiveRecord::Schema.define(version: 20150724150119) do
 
   create_table "admin_passwords", force: :cascade do |t|
     t.string   "value"
@@ -25,7 +25,10 @@ ActiveRecord::Schema.define(version: 20150724132013) do
     t.text     "text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean  "verified"
   end
+
+  add_index "stories", ["verified"], name: "index_stories_on_verified"
 
   create_table "stories_tags", force: :cascade do |t|
     t.integer "story_id"
