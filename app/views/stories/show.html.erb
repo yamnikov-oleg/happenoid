@@ -2,4 +2,7 @@
 
 <%= render 'story', story: @story %>
 
-<%= link_to 'Редактировать', edit_story_path(@story) %>
+<% if admin? %>
+	<%= link_to 'Редактировать', edit_story_path(@story) %><br>
+	<%= link_to 'Удалить', @story, method: :delete, data: { confirm: 'Вы уверены?' }  %>
+<% end %>

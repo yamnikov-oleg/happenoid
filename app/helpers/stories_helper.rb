@@ -2,6 +2,8 @@ require 'open-uri'
 
 module StoriesHelper
 
+  include ApplicationHelper
+
 	def parse_month month_string
 		case month_string[0..2]
 		when 'янв'

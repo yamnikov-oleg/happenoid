@@ -11,6 +11,11 @@
 <h1><%= link_to 'HAPPENOID', stories_path %></h1>
 <%= link_to 'Добавить', new_story_path %>
 <%= link_to 'Все теги', tags_path %>
+<% if admin? %>
+	<%= link_to 'Выйти', admin_path, method: :delete %>
+<% else %>
+	<%= link_to '/admin', admin_path %>
+<% end %> 
 
 <%= yield %>
 

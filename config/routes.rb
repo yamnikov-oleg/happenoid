@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  
+  get 'admin' => 'admin#login', as: :admin
+  post 'admin' => 'admin#enter'
+  delete 'admin' => 'admin#exit'
+
   resources :tags
   resources :tags
   resources :stories
