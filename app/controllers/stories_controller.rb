@@ -36,7 +36,7 @@ class StoriesController < ApplicationController
     elsif params[:mode] == "external"
       mode = :external
     end
-    
+
     unless admin?
       mode = :html
     end
@@ -96,7 +96,7 @@ class StoriesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def story_params
-      params.require(:story).permit(:title, :rating, :text)
+      params.require(:story).permit(:title, :text)
     end
 
 end

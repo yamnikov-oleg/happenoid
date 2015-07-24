@@ -1,14 +1,10 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Short:</strong>
-  <%= @tag.short %>
-</p>
+<h2><%= @tag.full %></h2>
+<% if admin? %>
+	<%= link_to 'Редактировать', edit_tag_path(@tag) %> 
+<% end %>
 
-<p>
-  <strong>Full:</strong>
-  <%= @tag.full %>
-</p>
-
-<%= link_to 'Edit', edit_tag_path(@tag) %> |
-<%= link_to 'Back', tags_path %>
+<% @tag.stories.each do |story| %>
+	<%= render 'stories/story', story: story %>
+<% end %>

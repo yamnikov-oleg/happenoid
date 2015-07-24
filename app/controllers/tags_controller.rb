@@ -16,16 +16,28 @@ class TagsController < ApplicationController
 
   # GET /tags/new
   def new
+    unless admin?
+      redirect_to tags_path, restricted: true
+      return
+    end
     @tag = Tag.new
   end
 
   # GET /tags/1/edit
   def edit
+    unless admin?
+      redirect_to @tag, restricted: true
+      return
+    end
   end
 
   # POST /tags
   # POST /tags.json
   def create
+    unless admin?
+      redirect_to tags_path, restricted: true
+      return
+    end
     @tag = Tag.new(tag_params)
 
     if @tag.save
@@ -38,6 +50,11 @@ class TagsController < ApplicationController
   # PATCH/PUT /tags/1
   # PATCH/PUT /tags/1.json
   def update
+    unless admin?
+      redirect_to @tag, restricted: true
+      return
+    end
+
     if @tag.update(tag_params)
       redirect_to @tag, notice: 'Tag was successfully updated.'
     else
@@ -48,6 +65,11 @@ class TagsController < ApplicationController
   # DELETE /tags/1
   # DELETE /tags/1.json
   def destroy
+    unless admin?
+      redirect_to @tag, restricted: true
+      return
+    end
+
     @tag.destroy
     redirect_to tags_url
   end
@@ -55,7 +77,7 @@ class TagsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_tag
-      @tag = Tag.find(params[:id])
+      @tag = Tag.find_by_short(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
