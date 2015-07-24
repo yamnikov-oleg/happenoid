@@ -2,6 +2,7 @@ class StoriesController < ApplicationController
   include StoriesHelper
 
   before_action :set_story, only: [:show, :edit, :update, :destroy]
+  before_filter :admin_only!, only: [:edit, :update, :destroy]
 
   # GET /stories
   # GET /stories.json
@@ -21,10 +22,6 @@ class StoriesController < ApplicationController
 
   # GET /stories/1/edit
   def edit
-    unless admin?
-      redirect_to @story, restricted: true
-      return
-    end
   end
 
   # POST /stories
@@ -64,11 +61,6 @@ class StoriesController < ApplicationController
   # PATCH/PUT /stories/1
   # PATCH/PUT /stories/1.json
   def update
-    unless admin?
-      redirect_to @story, restricted: true
-      return
-    end
-
     if @story.update(story_params)
       redirect_to @story, notice: 'Story was successfully updated.'
     else
@@ -79,11 +71,6 @@ class StoriesController < ApplicationController
   # DELETE /stories/1
   # DELETE /stories/1.json
   def destroy
-    unless admin?
-      redirect_to @story, restricted: true
-      return
-    end
-
     @story.destroy
     redirect_to stories_url
   end

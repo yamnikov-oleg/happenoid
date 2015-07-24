@@ -11,7 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150722144126) do
+ActiveRecord::Schema.define(version: 20150724132013) do
+
+  create_table "admin_passwords", force: :cascade do |t|
+    t.string   "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "stories", force: :cascade do |t|
     t.string   "title"

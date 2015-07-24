@@ -1,0 +1,8 @@
+<%= form_tag admin_password_path do %>
+	<%= flash[:admin_password] %><br>
+	<%= label_tag 'Старый пароль' %><br>
+	<%= password_field_tag :old %><br>
+	<%= label_tag 'Новый пароль' %><br>
+	<%= password_field_tag :new %><br>
+	<%= submit_tag 'Изменить' %>
+<% end %>

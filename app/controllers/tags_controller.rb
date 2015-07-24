@@ -2,6 +2,7 @@ class TagsController < ApplicationController
   include TagsHelper
 
   before_action :set_tag, only: [:show, :edit, :update, :destroy]
+  before_filter :admin_only!, only: [:new, :edit, :create, :update, :destroy]
 
   # GET /tags
   # GET /tags.json
@@ -16,28 +17,16 @@ class TagsController < ApplicationController
 
   # GET /tags/new
   def new
-    unless admin?
-      redirect_to tags_path, restricted: true
-      return
-    end
     @tag = Tag.new
   end
 
   # GET /tags/1/edit
   def edit
-    unless admin?
-      redirect_to @tag, restricted: true
-      return
-    end
   end
 
   # POST /tags
   # POST /tags.json
   def create
-    unless admin?
-      redirect_to tags_path, restricted: true
-      return
-    end
     @tag = Tag.new(tag_params)
 
     if @tag.save
@@ -50,11 +39,6 @@ class TagsController < ApplicationController
   # PATCH/PUT /tags/1
   # PATCH/PUT /tags/1.json
   def update
-    unless admin?
-      redirect_to @tag, restricted: true
-      return
-    end
-
     if @tag.update(tag_params)
       redirect_to @tag, notice: 'Tag was successfully updated.'
     else
@@ -65,11 +49,6 @@ class TagsController < ApplicationController
   # DELETE /tags/1
   # DELETE /tags/1.json
   def destroy
-    unless admin?
-      redirect_to @tag, restricted: true
-      return
-    end
-
     @tag.destroy
     redirect_to tags_url
   end

@@ -4,6 +4,9 @@ Rails.application.routes.draw do
   post 'admin' => 'admin#enter'
   delete 'admin' => 'admin#exit'
 
+  get 'admin/password' => 'admin#edit', as: :admin_password
+  post 'admin/password' => 'admin#update'
+
   resources :tags
   resources :tags
   resources :stories
