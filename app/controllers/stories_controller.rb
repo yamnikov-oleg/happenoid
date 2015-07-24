@@ -41,6 +41,11 @@ class StoriesController < ApplicationController
     case mode
     when :html
       @story = Story.new(story_params)
+      unless admin?
+        @story.text = ERB::Util.h @story.text
+      end
+      @story.text.gsub! /\n+/, "</p><p>"
+      @story.text = "<p>#{@story.text}</p>"
     when :json
       json = params[:json]
       @story = parse_from_json JSON.load json

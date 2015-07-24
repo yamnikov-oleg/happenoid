@@ -81,15 +81,15 @@ module StoriesHelper
 
     # working with date part
     if time[0] == "сегодня"
-    	time_hash[:day] = now.day
-    	time_hash[:month] = now.month
-    	time_hash[:year] = now.year
+    	day = now.day
+    	month = now.month
+    	year = now.year
     elsif time[0] == "вчера"
     	now -= 1.day
 
-    	time_hash[:day] = now.day
-    	time_hash[:month] = now.month
-    	time_hash[:year] = now.year
+    	day = now.day
+    	month = now.month
+    	year = now.year
     else
     	date = time[0].split
 
@@ -123,7 +123,11 @@ module StoriesHelper
 
   	story.title = object["title"]
   	story.rating = object["rating"]
-  	story.text = object["text"]
+
+  	story.text = ERB::Util.h object["text"]
+    story.text.gsub! /\n+/, "</p><p>"
+    story.text = "<p>#{story.text}</p>"
+
   	story.tags = parse_json_tags object["tags"]
 		story.created_at = parse_time object["date"]
 
@@ -174,7 +178,10 @@ module StoriesHelper
     end
     story.tags = parse_json_tags tags_hash
 
-    story.text = element.css('.text').text.strip
+    story.text = ERB::Util.h element.css('.text').text.strip
+    story.text.gsub! /\n+/, "</p><p>"
+    story.text = "<p>#{story.text}</p>"
+
     story.save
 
     return story
