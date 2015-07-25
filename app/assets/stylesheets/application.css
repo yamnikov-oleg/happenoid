@@ -136,3 +136,12 @@ a:hover {
 .short_form {
 	margin: 50px 25%;
 }
+
+#load_more {
+	width: 100%;
+	text-align: center;
+	padding: 50px;
+	background-color: lightgray;
+	font-weight: bold;
+	border-radius: 5px;
+}
