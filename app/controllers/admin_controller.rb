@@ -25,16 +25,19 @@ class AdminController < ApplicationController
 
   def update
     unless old_from_params == @password.value
-      redirect_to admin_password_path, admin_password: 'Старый пароль неверен'
+      flash[:admin_password] = 'Старый пароль неверен'
+      redirect_to admin_password_path
       return
     end
+
     @password.value = new_from_params
     if @password.save
       admin_password = 'Успешно'
     else
-      admin_password = @password.errors[0].full_message
+      admin_password = @password.errors.full_messages[0]
     end
-    redirect_to admin_password_path, admin_password: admin_password
+    flash[:admin_password] = admin_password
+    redirect_to admin_password_path
   end
 
   private

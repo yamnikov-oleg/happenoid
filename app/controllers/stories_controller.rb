@@ -2,6 +2,7 @@ class StoriesController < ApplicationController
   include StoriesHelper
 
   before_action :set_story, only: [:show, :edit, :update, :destroy, :verify, :like]
+  before_action :load_tags, only: [:new, :create, :edit, :update]
   before_filter :admin_only!, only: [:edit, :update, :destroy, :unverified, :verify]
 
   # GET /stories
@@ -47,15 +48,11 @@ class StoriesController < ApplicationController
 
   # GET /stories/new
   def new
-    @tags = Tag.all
-    @tags = @tags.sort {|a, b| Unicode::strcmp(a.full,b.full)}
     @story = Story.new
   end
 
   # GET /stories/1/edit
   def edit
-    @tags = Tag.all
-    @tags = @tags.sort {|a, b| Unicode::strcmp(a.full,b.full)}
   end
 
   # POST /stories
@@ -76,10 +73,12 @@ class StoriesController < ApplicationController
     when :html
       @story = Story.new(story_params)
 
-      params['story']['tag'].each do |tag_short|
-        tag = Tag.find_by_short(tag_short)
-        unless tag.nil? 
-          @story.tags << tag
+      if params['story']['tag']
+        params['story']['tag'].each do |tag_short|
+          tag = Tag.find_by_short(tag_short)
+          unless tag.nil? 
+            @story.tags << tag
+          end
         end
       end
 
@@ -113,12 +112,16 @@ class StoriesController < ApplicationController
   # PATCH/PUT /stories/1.json
   def update
     @story.tags.destroy_all
-    params['story']['tag'].each do |tag_short|
-      tag = Tag.find_by_short(tag_short)
-      unless tag.nil? 
-        @story.tags << tag
+
+    if params['story']['tag']
+      params['story']['tag'].each do |tag_short|
+        tag = Tag.find_by_short(tag_short)
+        unless tag.nil? 
+          @story.tags << tag
+        end
       end
     end
+
     if @story.update(story_params)
       redirect_to @story, notice: 'Story was successfully updated.'
     else
@@ -142,6 +145,11 @@ class StoriesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def story_params
       params.require(:story).permit(:title, :text)
+    end
+
+    def load_tags
+      @tags = Tag.all
+      @tags = @tags.sort {|a, b| Unicode::strcmp(a.full,b.full)}
     end
 
 end
