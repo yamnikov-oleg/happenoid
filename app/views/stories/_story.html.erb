@@ -1,7 +1,8 @@
-<div class="story">
+<div class="story" id="story<%= story.id %>">
 	<div class="meta">
-		<%= link_to story.created_at, story, class: "id" %>
-		<%= story.rating %>
+		<%= link_to story.created_at, story, class: "date" %>
+		<span class="rating"><%= story.rating %></span>
+		<button onclick="like(<%= story.id %>)">+</button>
 		<% if admin? %>
 			<% unless story.verified %>
 				<%= link_to 'Опубликовать', verify_story_path(story), method: :post %>

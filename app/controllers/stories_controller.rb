@@ -1,13 +1,21 @@
 class StoriesController < ApplicationController
   include StoriesHelper
 
-  before_action :set_story, only: [:show, :edit, :update, :destroy, :verify]
+  before_action :set_story, only: [:show, :edit, :update, :destroy, :verify, :like]
   before_filter :admin_only!, only: [:edit, :update, :destroy, :unverified, :verify]
 
   # GET /stories
   # GET /stories.json
   def index
-    @stories = Story.where verified: true
+    page = 1
+    if params['page']
+      page = params['page'].to_i
+    end
+
+    @stories = Story.where(verified: true).order(created_at: :desc).limit(12).offset((page-1)*12)
+    if params['ajax']
+      render 'index', layout: nil
+    end
   end
 
   def unverified
@@ -19,6 +27,15 @@ class StoriesController < ApplicationController
     @story.verified = true
     @story.save
     redirect_back_or_to @story
+  end
+
+  def like
+    unless session["liked#{@story.id}"]
+      @story.rating += 1
+      @story.save
+      session["liked#{@story.id}"] = true
+    end
+    render json: {story: @story.id, rating: @story.rating}
   end
 
   # GET /stories/1

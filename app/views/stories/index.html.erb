@@ -1,4 +1,8 @@
-<p id="notice"><%= notice %></p>
 <% @stories.each do |story| %>
   <%= render 'story', story: story %>
+<% end %>
+<% if @stories.count > 0 %>
+	<div id="load_more">
+		Загружаю истории...
+	</div>
 <% end %>
