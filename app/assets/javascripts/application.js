@@ -41,7 +41,7 @@ $(function () {
 	page = 1;
 	container = $('#container');
 	load_more = $('#load_more');
-	url = '/stories';
+	url = '/';
 	options = {offset: '150%'};
 	waypoints = null;
 
