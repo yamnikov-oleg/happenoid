@@ -1,0 +1,18 @@
+default: &default
+  adapter: mysql2 # тип БД
+  host: localhost # адрес
+  port: 3306 # порт
+  username: root # логин
+  password: "1234" # пароль
+
+development:
+  <<: *default
+  database: happenoid_dev # имя БД
+
+test:
+  <<: *default
+  database: happenoid_test # имя БД
+
+production:
+  <<: *default
+  database: happenoid # имя БД
