@@ -108,6 +108,14 @@ a:hover {
 	margin-left: 5px;
 }
 
+.story .tag::before {
+	content: '#';
+}
+
+.story .tag {
+	font-style: italic;
+}
+
 .field {
 	width: 100%;
 	margin-bottom: 10px;
@@ -119,6 +127,10 @@ a:hover {
 
 .field textarea {
 	min-height: 120px;
+}
+
+.tags_field {
+	margin-bottom: 10px;
 }
 
 .short_form {

@@ -6,6 +6,11 @@
 		<%= link_to story.created_at.strftime('%d.%m.%Y %H:%M'), story, class: "date" %>
 		<span class="rating"><%= story.rating %></span>
 		<button onclick="like(<%= story.id %>)", class="plus_one">+1</button>
+		<span class="tags">
+			<% story.tags.each do |tag| %>
+				<span class="tag"><%= link_to tag.full, tag %></span>
+			<% end %>
+		</span>
 		<% if admin? %>
 			<% unless story.verified %>
 				<%= link_to 'Опубликовать', verify_story_path(story), method: :post, class: "admin_action" %>

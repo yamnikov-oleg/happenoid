@@ -47,11 +47,15 @@ class StoriesController < ApplicationController
 
   # GET /stories/new
   def new
+    @tags = Tag.all
+    @tags = @tags.sort {|a, b| Unicode::strcmp(a.full,b.full)}
     @story = Story.new
   end
 
   # GET /stories/1/edit
   def edit
+    @tags = Tag.all
+    @tags = @tags.sort {|a, b| Unicode::strcmp(a.full,b.full)}
   end
 
   # POST /stories
@@ -71,11 +75,21 @@ class StoriesController < ApplicationController
     case mode
     when :html
       @story = Story.new(story_params)
+
+      params['story']['tag'].each do |tag_short|
+        tag = Tag.find_by_short(tag_short)
+        unless tag.nil? 
+          @story.tags << tag
+        end
+      end
+
       unless admin?
         @story.text = ERB::Util.h @story.text
       end
+
       @story.text.gsub! /\n+/, "</p><p>"
       @story.text = "<p>#{@story.text}</p>"
+      
       @story.verified = admin?
     when :json
       json = params[:json]
@@ -98,6 +112,13 @@ class StoriesController < ApplicationController
   # PATCH/PUT /stories/1
   # PATCH/PUT /stories/1.json
   def update
+    @story.tags.destroy_all
+    params['story']['tag'].each do |tag_short|
+      tag = Tag.find_by_short(tag_short)
+      unless tag.nil? 
+        @story.tags << tag
+      end
+    end
     if @story.update(story_params)
       redirect_to @story, notice: 'Story was successfully updated.'
     else

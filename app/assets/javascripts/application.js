@@ -24,6 +24,18 @@ like = function (id) {
 	});
 }
 
+add_tag = function (select) {
+	select = $(select);
+	value = select.val();
+	text = select.find('option:selected').text();
+	
+	container = $(".tags_field .tags").first();
+
+	if (container.find("#"+value).size() == 0) {
+		container.append('<span class="tag" id="'+value+'"><input type="checkbox" name="story[tag['+value+']]" id="story_tag_'+value+'" value="1" onclick="$(".tag#'+value+'").remove();" checked="checked">'+text+'</span>');
+	}
+}
+
 $(function () {
 
 	page = 1;

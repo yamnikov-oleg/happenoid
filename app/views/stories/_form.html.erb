@@ -16,6 +16,20 @@
   <div class="field">
     <%= f.text_field :title, placeholder: 'Заголовок' %>
   </div>
+  <div class="tags_field">
+    Теги:
+    <span class="tags">
+      <% @story.tags.each do |tag| %>
+        <span class="tag" id="<%= tag.short %>"><%= check_box_tag "story[tag[#{tag.short}]]", "1", "1", onclick: "$('.tag##{tag.short}').remove();" %><%= tag.full %></span>
+      <% end %>
+    </span>
+    <select onchange="add_tag(this)">
+      <option value="">Добавить...</option>
+      <% @tags.each do |tag| %>
+        <option value="<%= tag.short %>"><%= tag.full %></option>
+      <% end %>
+    </select>
+  </div>
   <div class="field">
     <%= f.text_area :text, placeholder: 'Текст истории' %>
   </div>
