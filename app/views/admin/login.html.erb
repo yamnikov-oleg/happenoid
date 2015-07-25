@@ -1,4 +1,6 @@
-<%= form_tag admin_path do %>
-<%= password_field_tag :password %>
+<%= form_tag admin_path, class: 'short_form' do %>
+<div class="field">
+	<%= password_field_tag :password, nil, placeholder: 'Пароль' %>
+</div>
 <%= submit_tag 'Войти' %>
 <% end %>

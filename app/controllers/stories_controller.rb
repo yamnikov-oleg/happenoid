@@ -20,7 +20,6 @@ class StoriesController < ApplicationController
 
   def unverified
     @stories = Story.where verified: false
-    render 'index'
   end
 
   def verify

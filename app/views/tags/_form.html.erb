@@ -1,4 +1,5 @@
-<%= form_for(@tag) do |f| %>
+<div class="short_form">
+<%= form_for @tag do |f| %>
   <% if @tag.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@tag.errors.count, "error") %> prohibited this tag from being saved:</h2>
@@ -12,14 +13,15 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :short %><br>
+    <%= f.label 'Идентификатор' %><br>
     <%= f.text_field :short %>
   </div>
   <div class="field">
-    <%= f.label :full %><br>
+    <%= f.label 'Полное название' %><br>
     <%= f.text_field :full %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit 'Отправить' %>
   </div>
 <% end %>
+</div>

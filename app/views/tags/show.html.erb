@@ -1,6 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<h2><%= @tag.full %></h2>
+<h3>Все посты с тегом <%= @tag.full %></h3>
 <% if admin? %>
 	<%= link_to 'Редактировать', edit_tag_path(@tag) %> 
 <% end %>

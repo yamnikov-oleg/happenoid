@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
   
+  post '/' => 'stories#create'
+  root 'stories#index', as: :stories
+
   get 'admin' => 'admin#login', as: :admin
   post 'admin' => 'admin#enter'
   delete 'admin' => 'admin#exit'
@@ -8,7 +11,7 @@ Rails.application.routes.draw do
   post 'admin/password' => 'admin#update'
 
   resources :tags
-  resources :stories do
+  resources :stories, except: [:index] do
     collection do
       get 'unverified', as: :unverified
     end

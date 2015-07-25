@@ -27,7 +27,7 @@ like = function (id) {
 $(function () {
 
 	page = 1;
-	container = $('body');
+	container = $('#container');
 	load_more = $('#load_more');
 	url = '/stories';
 	options = {offset: '150%'};

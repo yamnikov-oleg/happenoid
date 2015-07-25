@@ -1,8 +1,10 @@
-<%= form_tag admin_password_path do %>
+<%= form_tag admin_password_path, class: 'short_form' do %>
 	<%= flash[:admin_password] %><br>
-	<%= label_tag 'Старый пароль' %><br>
-	<%= password_field_tag :old %><br>
-	<%= label_tag 'Новый пароль' %><br>
-	<%= password_field_tag :new %><br>
+	<div class="field">
+		<%= password_field_tag :old, nil, placeholder: 'Старый пароль' %>
+	</div>
+	<div class="field">
+		<%= password_field_tag :new, nil, placeholder: 'Новый пароль' %>
+	</div>
 	<%= submit_tag 'Изменить' %>
 <% end %>

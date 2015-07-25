@@ -3,6 +3,7 @@ class AdminController < ApplicationController
 
   before_action :save_referrer, only: [:login, :exit]
   before_action :pswd_from_db, only: [:enter, :update]
+  before_filter :admin_only!, only: [:edit, :update]
 
 	def login
 	end

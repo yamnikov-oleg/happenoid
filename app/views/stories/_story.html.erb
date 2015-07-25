@@ -1,18 +1,18 @@
 <div class="story" id="story<%= story.id %>">
-	<div class="meta">
-		<%= link_to story.created_at, story, class: "date" %>
-		<span class="rating"><%= story.rating %></span>
-		<button onclick="like(<%= story.id %>)">+</button>
-		<% if admin? %>
-			<% unless story.verified %>
-				<%= link_to 'Опубликовать', verify_story_path(story), method: :post %>
-			<% end %>
-			<%= link_to 'Редактировать', edit_story_path(story) %>
-			<%= link_to 'Удалить', story, method: :delete, data: { confirm: 'Вы уверены?' }  %>
-		<% end %>
-	</div>
 	<div class="title">
 		<%= story.title %>
+	</div>
+	<div class="meta">
+		<%= link_to story.created_at.strftime('%d.%m.%Y %H:%M'), story, class: "date" %>
+		<span class="rating"><%= story.rating %></span>
+		<button onclick="like(<%= story.id %>)", class="plus_one">+1</button>
+		<% if admin? %>
+			<% unless story.verified %>
+				<%= link_to 'Опубликовать', verify_story_path(story), method: :post, class: "admin_action" %>
+			<% end %>
+			<%= link_to 'Редактировать', edit_story_path(story), class: "admin_action" %>
+			<%= link_to 'Удалить', story, method: :delete, data: { confirm: 'Вы уверены?' }, class: "admin_action"  %>
+		<% end %>
 	</div>
 	<div class="body">
 		<%= story.text.html_safe %>

@@ -11,15 +11,18 @@
 	<div id="container">
 
 		<h1 id="logo"><%= link_to 'HAPPENOID', stories_path %></h1>
-		<%= link_to 'Добавить', new_story_path %>
-		<%= link_to 'Все теги', tags_path %>
-		<% if admin? %>
-			<%= link_to 'Модерация', unverified_stories_path %>
-			<%= link_to 'Изм. пароль', admin_password_path %>
-			<%= link_to 'Выйти', admin_path, method: :delete %>
-		<% else %>
-			<%= link_to '/admin', admin_path %>
-		<% end %> 
+
+		<div class="nav">
+			<%= link_to 'Добавить историю', new_story_path, class: 'left' %>
+			<%= link_to 'Все теги', tags_path, class: 'left' %>
+			<% if admin? %>
+				<%= link_to 'Выйти', admin_path, method: :delete, class: 'right' %>
+				<%= link_to 'Изменить пароль', admin_password_path, class: 'right' %>
+				<%= link_to 'Модерация', unverified_stories_path, class: 'right' %>
+			<% else %>
+				<%= link_to '/admin', admin_path, class: 'right' %>
+			<% end %> 
+		</div>
 
 		<%= yield %>
 

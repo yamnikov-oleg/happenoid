@@ -1,8 +1,9 @@
 <%= form_tag stories_path do %>
 	<%= hidden_field_tag :mode, "json" %>
 
-	<%= label_tag 'Код JSON' %><br>
-	<%= text_area_tag :json %><br>
+	<div class="field">
+		<%= text_area_tag :json, nil, placeholder: 'Код JSON' %><br>
+	</div>
 
 	<%= submit_tag 'Отправить' %>
 <% end %>
